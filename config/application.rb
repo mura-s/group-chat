@@ -25,5 +25,8 @@ module GroupChat
 
     # validationエラー時にdivに付与されるclassを修正
     config.action_view.field_error_proc = proc { |html_tag, _instance| html_tag }
+
+    # glyphicons
+    config.assets.paths << "#{Rails}/vendor/assets/fonts"
   end
 end

@@ -1,0 +1,26 @@
+<div class="col-md-4">
+  <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button"
+            id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+      <span class="glyphicon glyphicon-user"></span>
+      <%= @user.name %>
+      <span class="caret"></span>
+    </button>
+
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+      <li role="presentation"><%= link_to "設定", edit_user_registration_path %></li>
+      <li role="presentation"><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
+    </ul>
+  </div>
+
+  <div class="panel panel-default chat-groups">
+    <div class="panel-heading">グループ一覧</div>
+    <div class="list-group">
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-8">
+  <h2>チャット</h2>
+</div>
