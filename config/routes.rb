@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get 'chats/index'
 
+  resources :groups, only: [:new, :create]
+
   devise_for :users
 
   devise_scope :user do

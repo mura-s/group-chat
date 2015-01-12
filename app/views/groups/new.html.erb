@@ -1,0 +1,33 @@
+<% if @group.errors.any? %>
+  <div id="error_explanation">
+    <div class="alert alert-danger">
+      <h2><%= @group.errors.count %>個のエラーにより、groupを保存できませんでした：</h2>
+      <ul>
+        <% @group.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+<div class="col-sm-6 col-sm-offset-3">
+  <div class="jumbotron">
+    <h2>グループ作成</h2>
+
+    <%= form_for(@group) do |f| %>
+      <div class="field form-group">
+        <%= f.label :name %><br />
+        <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+      </div>
+
+      <div class="actions form-group">
+        <%= f.submit "グループ作成", class: 'btn btn-success', data: { disable_with: '作成中...' } %>
+      </div>
+    <% end %>
+
+    <hr>
+
+    <%= link_to "Back", chats_index_path %>
+  </div>
+</div>

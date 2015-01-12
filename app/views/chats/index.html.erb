@@ -1,4 +1,4 @@
-<div class="col-md-4">
+<div class="col-sm-3">
   <div class="dropdown">
     <button class="btn btn-default dropdown-toggle" type="button"
             id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
@@ -8,19 +8,31 @@
     </button>
 
     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-      <li role="presentation"><%= link_to "設定", edit_user_registration_path %></li>
+      <li role="presentation"><%= link_to "グループ作成", new_group_path %></li>
+      <li role="presentation"><%= link_to "ユーザ編集", edit_user_registration_path %></li>
       <li role="presentation"><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
     </ul>
   </div>
 
   <div class="panel panel-default chat-groups">
-    <div class="panel-heading">グループ一覧</div>
+    <div class="panel-heading">参加グループ</div>
     <div class="list-group">
-      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <% @groups.each do |group| %>
+        <%= link_to group.name, "#", class: "list-group-item" %>
+      <% end %>
     </div>
   </div>
 </div>
 
-<div class="col-md-8">
+<div class="col-sm-6">
   <h2>チャット</h2>
+</div>
+
+<div class="col-sm-3">
+  <div class="panel panel-default chat-groups">
+    <div class="panel-heading">メンバー</div>
+    <div class="list-group">
+      <li class="list-group-item">test</li>
+    </div>
+  </div>
 </div>

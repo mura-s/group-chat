@@ -4,5 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  validates :name, presence: true, length: { maximum: 30 }
+  has_many :user_groups, dependent: :destroy
+  has_many :groups, through: :user_groups
+
+  validates :name, presence: true, length: { maximum: 20 }
 end
