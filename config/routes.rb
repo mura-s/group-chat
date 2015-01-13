@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   get 'chats/index'
 
-  resources :groups, only: [:new, :create]
+  resources :groups, except: [:index, :show] do
+    post 'add_user'
+    delete 'leave'
+  end
 
   devise_for :users
 

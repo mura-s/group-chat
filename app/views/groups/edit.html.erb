@@ -1,0 +1,44 @@
+<%= render 'error_messages', object: @group %>
+
+<div class="col-sm-6 col-sm-offset-3">
+  <div class="jumbotron">
+    <h2>Edit Group</h2>
+
+    <%= form_for(@group) do |f| %>
+      <div class="field form-group">
+        <%= f.label :name %><br />
+        <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+      </div>
+
+      <div class="actions form-group">
+        <%= f.submit "Update", class: 'btn btn-success', data: { disable_with: '更新中...' } %>
+      </div>
+    <% end %>
+
+    <hr>
+
+    <h3>Add User</h3>
+
+    <%= form_for(@user, url: {controller: :groups, action: :add_user, group_id: @group.id}) do |f| %>
+      <div class="field form-group">
+        <%= f.label :email %> <i>(exact match)</i><br />
+        <%= f.email_field :email, class: 'form-control' %>
+      </div>
+
+      <div class="actions form-group">
+        <%= f.submit "Add", class: 'btn btn-success', data: { disable_with: '追加中...' } %>
+      </div>
+    <% end %>
+
+    <hr>
+
+    <h3>Delete Group</h3>
+
+    <%= button_to "Delete", @group, data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %>
+
+    <hr>
+
+    <%= link_to "Back", chats_index_path %>
+
+  </div>
+</div>

@@ -18,7 +18,7 @@
     <div class="panel-heading">参加グループ</div>
     <div class="list-group">
       <% @groups.each do |group| %>
-        <%= link_to group.name, "#", class: "list-group-item" %>
+        <%= link_to group.name, "#", class: "list-group-item my-group", id: group.id %>
       <% end %>
     </div>
   </div>
@@ -29,10 +29,17 @@
 </div>
 
 <div class="col-sm-3">
+  <div class="list-group">
+    <%= link_to "グループ編集", "#", class: "list-group-item disabled group-setting" %>
+    <%= link_to "グループから抜ける", "#", class: "list-group-item disabled leave-group",
+      method: :delete, data: { confirm: "Are you sure?" } %>
+  </div>
+
   <div class="panel panel-default chat-groups">
     <div class="panel-heading">メンバー</div>
-    <div class="list-group">
-      <li class="list-group-item">test</li>
+    <div class="list-group group-member">
+      <li class="list-group-item">#</li>
+      <li class="list-group-item">#</li>
     </div>
   </div>
 </div>

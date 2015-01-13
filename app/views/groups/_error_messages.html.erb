@@ -1,0 +1,12 @@
+<% if @group.errors.any? %>
+  <div id="error_explanation">
+    <div class="alert alert-danger">
+      <h2><%= @group.errors.count %>個のエラーにより、groupを保存できませんでした：</h2>
+      <ul>
+        <% @group.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
