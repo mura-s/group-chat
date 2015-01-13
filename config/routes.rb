@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'chats/index'
-
   resources :groups, except: [:index, :show] do
     post 'add_user'
     delete 'leave'
@@ -8,9 +6,13 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  devise_scope :user do
-    root to: 'devise/sessions#new'
+  unauthenticated :user do
+    devise_scope :user do
+      root to: 'devise/sessions#new'
+    end
   end
+
+  root to: 'chats#index', as: 'chats_index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
