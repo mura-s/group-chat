@@ -6,6 +6,8 @@ $ ->
     # 参加グループ欄
     $(".my-group.active").removeClass("active")
     $(this).addClass("active")
+    # チャットエリア
+    $(".send-button").removeClass("disabled")
     # グループ編集、抜ける欄
     group_id = $(this).attr("id")
     $(".group-setting,.leave-group").removeClass("disabled")
