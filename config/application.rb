@@ -28,5 +28,13 @@ module GroupChat
 
     # glyphicons
     config.assets.paths << "#{Rails}/vendor/assets/fonts"
+
+    # api
+    config.paths.add "app/api", glob: "**/*.rb"
+    config.autoload_paths += %W(#{config.root}/app/api)
+
+    config.middleware.use(Rack::Config) do |env|
+      env['api.tilt.root'] = Rails.root.join 'app', 'views', 'api'
+    end
   end
 end

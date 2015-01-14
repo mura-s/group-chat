@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount API => "/api"
+
   resources :groups, except: [:index, :show] do
     post 'add_user'
     delete 'leave'
