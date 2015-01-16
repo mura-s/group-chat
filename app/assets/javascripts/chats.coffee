@@ -46,6 +46,11 @@ $ ->
 
   create_timeline = (group_id) ->
     $(".timeline-body").empty()
+    $.get "/api/groups/#{group_id}/messages", (data) ->
+      for message in data.messages
+        $(".timeline-body").append(
+          create_timeline_item(message.name, message.created_at, message.content)
+        )
 
   create_timeline_item = (name, time, content) ->
     item = $("<li class='list-group-item'></li>")

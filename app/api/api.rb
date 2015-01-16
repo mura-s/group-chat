@@ -39,6 +39,14 @@ class API < Grape::API
       @members = Group.find(params[:id]).users
     end
 
+    desc 'GET /api/groups/:id/messages'
+    params do
+      use :id
+    end
+    get '/:id/messages', jbuilder: 'groups/messages' do
+      @messages = Message.where(group_id: params[:id]).limit(50).includes(:user)
+    end
+
     desc 'POST /api/groups/:id/messages'
     params do
       use :id
