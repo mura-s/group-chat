@@ -3,6 +3,8 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 $ ->
   $(".my-group").click ->
+    group_id = $(this).attr("id")
+
     # alert
     $("p.alert").remove()
 
@@ -12,15 +14,43 @@ $ ->
 
     # チャットエリア
     $(".send-button").removeClass("disabled")
+    create_timeline(group_id)
 
     # グループ編集、抜ける
-    group_id = $(this).attr("id")
     $(".group-setting,.leave-group").removeClass("disabled")
     $(".group-setting").attr("href", "/groups/#{group_id}/edit")
     $(".leave-group").attr("href", "/groups/#{group_id}/leave")
 
     # メンバー
     create_member_area(group_id)
+
+  $(".send-button").click ->
+    group_id = $(".my-group.active").attr("id")
+    content = $(".message-post-area").val()
+    return if content.trim() is ""
+
+    $.ajax {
+      url: "/api/groups/#{group_id}/messages",
+      type: "POST",
+      dataType: "json",
+      data: { content: content }
+      success: (data) ->
+        $(".message-post-area").val("")
+        message = data.message
+        $(".timeline-body").prepend(
+          create_timeline_item(message.name, message.created_at, message.content)
+        )
+    }
+
+    this.blur()
+
+  create_timeline = (group_id) ->
+    $(".timeline-body").empty()
+
+  create_timeline_item = (name, time, content) ->
+    item = $("<li class='list-group-item'></li>")
+      .append("<div class='header'><em>#{name} (#{time})</em></div>")
+      .append("<div class='body'><strong>#{content}</strong></div>")
 
   create_member_area = (group_id) ->
     $(".group-member").empty()

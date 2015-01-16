@@ -19,7 +19,7 @@
     <div class="panel-heading">参加グループ</div>
     <div class="list-group">
       <% @groups.each do |group| %>
-        <%= link_to group.name, "#", class: "list-group-item my-group", id: group.id %>
+        <%= link_to group.name, "##{group.name}", class: "list-group-item my-group", id: group.id %>
       <% end %>
     </div>
   </div>
@@ -29,19 +29,18 @@
 <div class="col-sm-6">
   <div class="row spacer20">
     <div class="col-xs-10">
-      <textarea class="form-control" rows="2" placeholder="送信するメッセージを入力"></textarea>
+      <textarea class="form-control message-post-area" rows="2"
+        placeholder="送信するメッセージを入力"></textarea>
     </div>
-    <div class="col-xs-2">
+    <div class="col-xs-2 send-button-div">
       <button type="button" class="btn btn-primary btn-lg disabled send-button">送信</button>
     </div>
   </div>
 
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      タイムライン
-    </div>
-    <div class="panel-body">
-      グループが選択されていません
+  <div class="panel panel-primary timeline">
+    <div class="panel-heading timeline-header">タイムライン</div>
+    <div class="list-group timeline-body">
+      <li class="list-group-item">グループが選択されていません</li>
     </div>
   </div>
 </div>
@@ -50,7 +49,7 @@
 <div class="col-sm-3">
   <div class="list-group">
     <%= link_to "グループ編集", "#", class: "list-group-item disabled group-setting" %>
-    <%= link_to "グループから抜ける", "#", class: "list-group-item disabled leave-group",
+    <%= link_to "グループを抜ける", "#", class: "list-group-item disabled leave-group",
       method: :delete, data: { confirm: "Are you sure?" } %>
   </div>
 
