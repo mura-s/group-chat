@@ -2,6 +2,9 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 $ ->
+  last_get_message_time = ""
+  group_id = ""
+
   $(".my-group").click ->
     group_id = $(this).attr("id")
 
@@ -14,7 +17,7 @@ $ ->
 
     # チャットエリア
     $(".send-button").removeClass("disabled")
-    create_timeline(group_id)
+    create_timeline()
 
     # グループ編集、抜ける
     $(".group-setting,.leave-group").removeClass("disabled")
@@ -22,10 +25,9 @@ $ ->
     $(".leave-group").attr("href", "/groups/#{group_id}/leave")
 
     # メンバー
-    create_member_area(group_id)
+    create_member_area()
 
   $(".send-button").click ->
-    group_id = $(".my-group.active").attr("id")
     content = $(".message-post-area").val()
     return if content.trim() is ""
 
@@ -39,28 +41,40 @@ $ ->
         message = data.message
         $(".timeline-body").prepend(
           create_timeline_item(message.name, message.created_at, message.content)
+            .addClass("my-post-item") # フォームから投稿したメッセージにしるしを付けておく
         )
     }
 
     this.blur()
 
-  create_timeline = (group_id) ->
+  # ポーリングしてメッセージを取得する
+  setInterval ->
+    if $(".timeline").size() isnt 0 and $(".group-not-selected").size() is 0
+      $.get "/api/groups/#{group_id}/messages/#{last_get_message_time}", (data) ->
+        $(".my-post-item").remove()
+        after_success_get_messages(data)
+  , 5000
+
+  create_timeline = ->
     $(".timeline-body").empty()
     $.get "/api/groups/#{group_id}/messages", (data) ->
-      for message in data.messages
-        $(".timeline-body").append(
-          create_timeline_item(message.name, message.created_at, message.content)
-        )
+      after_success_get_messages(data)
+
+  after_success_get_messages = (data) ->
+    for message in data.messages
+      $(".timeline-body").prepend(
+        create_timeline_item(message.name, message.created_at, message.content)
+      )
+    last_get_message_time = data.last_get_message_time
 
   create_timeline_item = (name, time, content) ->
     item = $("<li class='list-group-item'></li>")
       .append("<div class='header'><em>#{name} (#{time})</em></div>")
       .append("<div class='body'><strong>#{content}</strong></div>")
 
-  create_member_area = (group_id) ->
+  create_member_area = ->
     $(".group-member").empty()
     $.get "/api/groups/#{group_id}/members", (data) ->
       for member in data.members
         $(".group-member").append("<li class='list-group-item'>#{member.name}</li>")
-
 

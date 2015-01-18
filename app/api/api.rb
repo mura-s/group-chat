@@ -45,6 +45,19 @@ class API < Grape::API
     end
     get '/:id/messages', jbuilder: 'groups/messages' do
       @messages = Message.where(group_id: params[:id]).limit(50).includes(:user)
+      @last_get_message_time = Time.zone.now.to_s
+    end
+
+    desc 'GET /api/groups/:id/messages/:last_get_message_time'
+    params do
+      use :id
+    end
+    get '/:id/messages/:last_get_message_time', jbuilder: 'groups/messages' do
+      time = Time.zone.parse(params[:last_get_message_time])
+      @messages = Message.where(
+                    'group_id = ? and created_at > ?', params[:id], time
+                  ).includes(:user)
+      @last_get_message_time = Time.zone.now.to_s
     end
 
     desc 'POST /api/groups/:id/messages'
