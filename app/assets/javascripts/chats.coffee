@@ -70,7 +70,8 @@ $ ->
   create_timeline_item = (name, time, content) ->
     item = $("<li class='list-group-item'></li>")
       .append("<div class='header'><em>#{name} (#{time})</em></div>")
-      .append("<div class='body'><strong>#{content}</strong></div>")
+    for line in content.split("\n")
+      item.append("<div class='body'><strong>#{line}</strong></div>")
 
   create_member_area = ->
     $(".group-member").empty()
