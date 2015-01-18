@@ -77,4 +77,3 @@ $ ->
     $.get "/api/groups/#{group_id}/members", (data) ->
       for member in data.members
         $(".group-member").append("<li class='list-group-item'>#{member.name}</li>")
-
