@@ -2,11 +2,11 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 $ ->
-  last_get_message_time = ""
-  group_id = ""
+  last_message_id = -1
+  group_id = -1
 
   $(".my-group").click ->
-    group_id = $(this).attr("id")
+    group_id = parseInt($(this).attr("id"))
 
     # alert
     $("p.alert").remove()
@@ -50,7 +50,7 @@ $ ->
   # ポーリングしてメッセージを取得する
   setInterval ->
     if $(".timeline").size() isnt 0 and $(".group-not-selected").size() is 0
-      $.get "/api/groups/#{group_id}/messages/#{last_get_message_time}", (data) ->
+      $.get "/api/groups/#{group_id}/messages/#{last_message_id}", (data) ->
         $(".my-post-item").remove()
         after_success_get_messages(data)
   , 5000
@@ -65,7 +65,7 @@ $ ->
       $(".timeline-body").prepend(
         create_timeline_item(message.name, message.created_at, message.content)
       )
-    last_get_message_time = data.last_get_message_time
+    last_message_id = data.last_message_id
 
   create_timeline_item = (name, time, content) ->
     item = $("<li class='list-group-item'></li>")

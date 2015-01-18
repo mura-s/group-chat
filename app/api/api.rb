@@ -24,6 +24,10 @@ class API < Grape::API
     params :content do
       requires :content, type: String
     end
+
+    params :last_message_id do
+      requires :last_message_id, type: Integer
+    end
   end
 
   resource :groups do
@@ -45,19 +49,19 @@ class API < Grape::API
     end
     get '/:id/messages', jbuilder: 'groups/messages' do
       @messages = Message.where(group_id: params[:id]).limit(50).includes(:user)
-      @last_get_message_time = Time.zone.now.to_s
+      @last_message_id = @messages.any? ? @messages[-1].id : -1
     end
 
-    desc 'GET /api/groups/:id/messages/:last_get_message_time'
+    desc 'GET /api/groups/:id/messages/:last_message_id'
     params do
       use :id
+      use :last_message_id
     end
-    get '/:id/messages/:last_get_message_time', jbuilder: 'groups/messages' do
-      time = Time.zone.parse(params[:last_get_message_time])
-      @messages = Message.where(
-                    'group_id = ? and created_at > ?', params[:id], time
-                  ).includes(:user)
-      @last_get_message_time = Time.zone.now.to_s
+    get '/:id/messages/:last_message_id', jbuilder: 'groups/messages' do
+      message_id = params[:last_message_id]
+      @messages = Group.find(params[:id]).messages
+                  .where("id > ?", message_id).includes(:user)
+      @last_message_id = @messages.any? ? @messages[-1].id : message_id
     end
 
     desc 'POST /api/groups/:id/messages'

@@ -3,4 +3,4 @@ json.messages @messages do |message|
   json.(message, :content, :created_at)
 end
 
-json.last_get_message_time @last_get_message_time
+json.last_message_id @last_message_id
