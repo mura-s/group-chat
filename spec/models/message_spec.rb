@@ -1,5 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe Message, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Message, :type => :model do
+  describe '#user_id' do
+    it { should validate_presence_of(:user_id) }
+  end
+
+  describe '#group_id' do
+    it { should validate_presence_of(:group_id) }
+  end
+
+  describe '#content' do
+    it { should validate_presence_of(:content) }
+  end
 end

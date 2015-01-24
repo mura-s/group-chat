@@ -1,2 +1,2 @@
---color
+-fd --color
 --require spec_helper
