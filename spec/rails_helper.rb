@@ -57,7 +57,8 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   # Macros
-  config.include LoginMacros
+  config.include LoginMacros::Feature, type: :feature
+  config.include LoginMacros::Request, type: :request
 
   config.include FactoryGirl::Syntax::Methods
 
