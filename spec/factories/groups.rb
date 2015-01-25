@@ -8,6 +8,10 @@ FactoryGirl.define do
         3.times { create(:message, user_id: user.id, group_id: group.id) }
       end
     end
+
+    factory :invalid_group do
+      name nil
+    end
   end
 end
 
