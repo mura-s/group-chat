@@ -72,6 +72,7 @@ $ ->
       .append("<div class='header'><em>#{name} (#{time})</em></div>")
     for line in content.split("\n")
       item.append("<div class='body'><strong>#{line}</strong></div>")
+    item
 
   create_member_area = ->
     $(".group-member").empty()
